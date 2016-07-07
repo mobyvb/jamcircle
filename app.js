@@ -10,7 +10,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res){
-  res.sendfile('views/index.html');
+  res.sendFile(__dirname + '/views/index.html');
 });
 
 var connections = {};

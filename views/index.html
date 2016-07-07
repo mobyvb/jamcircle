@@ -3,32 +3,11 @@
   <head>
     <title>Jam Circle</title>
     <link rel='stylesheet', href='/stylesheets/style.css'>
+    <script src='/socket.io/socket.io.js'></script>
   </head>
 
   <body>
-    <h1>Jam Circle</h1>
-
-    <p>Welcome!</p>
-
-    <div id='loops'>
-      <ul id='looplist'>
-        <li>
-          <input type='checkbox' name='chordProg1' id='chordProg1'>
-          <label for='chordProg1'>ChordProg1</label>
-        </li>
-      </ul>
-    </div>
-
-    <ul id='messages'></ul>
-    <div id='keys'></div>
-
-    <script src='/js/jquery.min.js'></script>
-    <script src='/socket.io/socket.io.js'></script>
-    <script src='/js/keyboardnotemap.js'></script>
-    <script src='/js/midinotemap.js'></script>
-    <script src='/js/events.js'></script>
-    <script src='/js/midicontroller.js'></script>
-    <script src='/js/sound.js'></script>
-    <script src='/js/loops.js'></script>
+    <div id='content'></div>
+    <script src='/js/build/app.js'></script>
   </body>
 </html>

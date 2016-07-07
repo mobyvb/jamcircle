@@ -1,4 +1,4 @@
-var midiNoteMap = {
+module.exports = {
   33: 'A0',
   34: 'Bb0',
   35: 'B0',

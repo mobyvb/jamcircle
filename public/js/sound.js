@@ -1,15 +1,5 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-var oscillator = audioCtx.createOscillator();
-var gainNode = audioCtx.createGain();
-var volume = 0.2;
-var frequency = 3000;
-
-oscillator.connect(gainNode);
-gainNode.connect(audioCtx.destination);
-
-oscillator.type = 'sine';
-oscillator.frequency.value = frequency;
-gainNode.gain.value = volume;
+var $ = require('jquery');
 
 var currentInstrumentBuffers = {};
 $.ajax({url: '/js/soundfonts/acoustic_grand_piano.json', success: function(result) {
@@ -18,23 +8,23 @@ $.ajax({url: '/js/soundfonts/acoustic_grand_piano.json', success: function(resul
 
 function setupInstrument(instrument) {
   currentInstrumentBuffers = {};
-  for (var key in instrument) {
-    addNoteToBuffer(key, instrument, currentInstrumentBuffers);
+  for (var note in instrument) {
+    addNoteToBuffer(note, instrument, currentInstrumentBuffers);
   }
 }
 
-function addNoteToBuffer(key, instrumentData, instrumentBuffers) {
-  var noteBuffer = base64ToArrayBuffer(instrumentData[key]);
+function addNoteToBuffer(note, instrumentData, instrumentBuffers) {
+  var noteBuffer = base64ToArrayBuffer(instrumentData[note]);
   audioCtx.decodeAudioData(noteBuffer, function(buffer) {
-    instrumentBuffers[key] = buffer;
+    instrumentBuffers[note] = buffer;
     if (Object.keys(instrumentData).length === Object.keys(instrumentBuffers).length) {
     }
   });
 }
 
-function getAudioBuffer(key, instrumentBuffers) {
+function getAudioBuffer(note) {
   var sound = audioCtx.createBufferSource();
-  sound.buffer = instrumentBuffers[key];
+  sound.buffer = currentInstrumentBuffers[note];
   sound.connect(audioCtx.destination);
   return sound;
 }
@@ -48,3 +38,7 @@ function base64ToArrayBuffer(base64) {
   }
   return bytes.buffer;
 }
+
+module.exports = {
+  getAudioBuffer: getAudioBuffer
+};
