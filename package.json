@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "setup": "mkdir public/js/build && touch public/js/build/app.js",
-    "bundle": "browserify -t [ babelify --presets [ react ] ] public/js/main.js -o public/js/build/app.js"
+    "bundle": "browserify -t [ babelify --presets [ react ] ] public/js/main.js | uglifyjs > public/js/build/app.js"
   },
   "dependencies": {
     "babel-preset-react": "^6.11.1",
