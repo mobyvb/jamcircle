@@ -2,10 +2,10 @@ var React = require('react');
 var Sidebar = require('./sidebar.jsx');
 var Visualizer = require('./visualizer.jsx');
 var Sequencer = require('./sequencer.jsx');
-var Sound = require('../sound.js');
-var MidiController = require('../midicontroller.js');
-var keyboardNoteMap = require('../keyboardnotemap.js');
-var midiNoteMap = require('../midinotemap.js');
+var Sound = require('../helpers/sound.js');
+var MidiController = require('../helpers/midicontroller.js');
+var keyboardNoteMap = require('../helpers/keyboardnotemap.js');
+var midiNoteMap = require('../helpers/midinotemap.js');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -55,14 +55,12 @@ module.exports = React.createClass({
     });
 
     MidiController.setMidiKeyDown(function(note) {
-      console.log('asdf');
       var note = midiNoteMap[note];
       if (note) {
         self.state.socket.emit('startnote', { id: self.state.socket.id, note: note });
       }
     });
     MidiController.setMidiKeyUp(function(note) {
-      console.log('fdsa');
       var note = midiNoteMap[note];
       if (note) {
         self.state.socket.emit('stopnote', { id: self.state.socket.id, note: note });
