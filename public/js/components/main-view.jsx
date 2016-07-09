@@ -11,24 +11,33 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       notesPlaying: {},
-      localKeysPressed: {}
+      localKeysPressed: {},
+      users: []
     }
   },
   componentDidMount: function() {
     var self = this;
     self.state.socket = io();
+    self.state.socket.on('usersupdated', function(data) {
+      self.setState({'users': data});
+    });
+
     self.state.socket.on('startnote', function(data) {
-      if (!self.state.notesPlaying[data.note]) {
-        self.state.notesPlaying[data.note] = {};
+      var notesPlaying = self.state.notesPlaying;
+      if (!notesPlaying[data.id]) {
+        notesPlaying[data.id] = {};
       }
-      self.state.notesPlaying[data.note][data.id] = Sound.getAudioBuffer(data.note);
-      self.state.notesPlaying[data.note][data.id].start();
+      notesPlaying[data.id][data.note] = Sound.getAudioBuffer(data.note);
+      notesPlaying[data.id][data.note].start();
+      self.setState({'notesPlaying': notesPlaying});
     });
     self.state.socket.on('stopnote', function(data) {
-      if (self.state.notesPlaying[data.note]) {
-        self.state.notesPlaying[data.note][data.id].stop();
-        delete self.state.notesPlaying[data.note][data.id];
+      var notesPlaying = self.state.notesPlaying;
+      if (notesPlaying[data.id]) {
+        notesPlaying[data.id][data.note].stop();
+        delete notesPlaying[data.id][data.note];
       }
+      self.setState({'notesPlaying': notesPlaying});
     });
     self.state.socket.on('startloop', function(data) {
 
@@ -41,7 +50,7 @@ module.exports = React.createClass({
       var note = keyboardNoteMap[e.keyCode];
       if (note) {
         if (!self.state.localKeysPressed[e.keyCode]) {
-          self.state.socket.emit('startnote', { id: self.state.socket.id, note: note });
+          self.state.socket.emit('startnote', { note: note });
           self.state.localKeysPressed[e.keyCode] = true;
         }
       }
@@ -49,7 +58,7 @@ module.exports = React.createClass({
     document.addEventListener('keyup', function(e) {
       var note = keyboardNoteMap[e.keyCode];
       if (note) {
-        self.state.socket.emit('stopnote', { id: self.state.socket.id, note: note });
+        self.state.socket.emit('stopnote', { note: note });
         delete self.state.localKeysPressed[e.keyCode];
       }
     });
@@ -57,13 +66,13 @@ module.exports = React.createClass({
     MidiController.setMidiKeyDown(function(note) {
       var note = midiNoteMap[note];
       if (note) {
-        self.state.socket.emit('startnote', { id: self.state.socket.id, note: note });
+        self.state.socket.emit('startnote', { note: note });
       }
     });
     MidiController.setMidiKeyUp(function(note) {
       var note = midiNoteMap[note];
       if (note) {
-        self.state.socket.emit('stopnote', { id: self.state.socket.id, note: note });
+        self.state.socket.emit('stopnote', { note: note });
       }
     });
   },
@@ -71,7 +80,7 @@ module.exports = React.createClass({
     return (
       <div className="main">
         <Sidebar />
-        <Visualizer />
+        <Visualizer users={this.state.users} notesPlaying={this.state.notesPlaying} />
         <Sequencer />
       </div>
     );

@@ -6,3 +6,43 @@ body {
 a {
   color: #00B7FF;
 }
+
+#visualizer {
+  border: 1px solid black;
+}
+.note.c {
+  color: hsl(0, 100%, 65%);
+}
+.note.db {
+  color: hsl(30, 100%, 65%);
+}
+.note.d {
+  color: hsl(60, 100%, 65%);
+}
+.note.eb {
+  color: hsl(90, 100%, 65%);
+}
+.note.e {
+  color: hsl(120, 100%, 65%);
+}
+.note.f {
+  color: hsl(150, 100%, 65%);
+}
+.note.gb {
+  color: hsl(180, 100%, 65%);
+}
+.note.g {
+  color: hsl(210, 100%, 65%);
+}
+.note.ab {
+  color: hsl(240, 100%, 65%);
+}
+.note.a {
+  color: hsl(270, 100%, 65%);
+}
+.note.bb {
+  color: hsl(300, 100%, 65%);
+}
+.note.b {
+  color: hsl(330, 100%, 65%);
+}

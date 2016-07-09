@@ -18,11 +18,11 @@ var numConnections = 0;
 
 io.on('connection', function(socket) {
   connections[socket.id] = socket;
-  numConnections ++;
-  socket.emit('setup', { socketId: socket.id });
+  numConnections++;
 
   console.log('user connected');
   console.log(numConnections + ' users connected');
+  emitAll('usersupdated', Object.keys(connections));
 
   socket.on('disconnect', function(){
     delete connections[socket.id];
@@ -30,13 +30,16 @@ io.on('connection', function(socket) {
 
     console.log('user disconnected');
     console.log(numConnections + ' users connected');
+    emitAll('usersupdated', Object.keys(connections));
   });
 
   socket.on('stopnote', function(data) {
+    data.id = socket.id;
     emitAll('stopnote', data);
   });
 
   socket.on('startnote', function(data) {
+    data.id = socket.id;
     emitAll('startnote', data);
   });
 
