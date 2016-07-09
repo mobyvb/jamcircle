@@ -1,48 +1,91 @@
 body {
-  padding: 50px;
+  padding: 0;
+  margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 a {
   color: #00B7FF;
 }
 
+#sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  overflow: hidden;
+}
+
+#sequencer {
+  display: none;
+}
+
 #visualizer {
+  position: relative;
   border: 1px solid black;
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  border-radius: 50%;
+}
+#visualizer .userbubble, #visualizer .centerbubble {
+  position: absolute;
+  border: 1px solid black;
+  border-radius: 50%;
+  overflow: hidden;
+  font-size: 10px;
+  z-index: 1;
+  background-color: lightblue;
+}
+#visualizer .notecontainer {
+  position: absolute;
+  /*height: 10px;*/
+  border: 1px solid black;
+  transform-origin: center left;
+}
+#visualizer .notecontainer .note {
+  width: 100%;
+  height: 4px;
 }
 .note.c {
-  color: hsl(0, 100%, 65%);
+  background-color: hsl(0, 100%, 65%);
 }
 .note.db {
-  color: hsl(30, 100%, 65%);
+  background-color: hsl(30, 100%, 65%);
 }
 .note.d {
-  color: hsl(60, 100%, 65%);
+  background-color: hsl(60, 100%, 65%);
 }
 .note.eb {
-  color: hsl(90, 100%, 65%);
+  background-color: hsl(90, 100%, 65%);
 }
 .note.e {
-  color: hsl(120, 100%, 65%);
+  background-color: hsl(120, 100%, 65%);
 }
 .note.f {
-  color: hsl(150, 100%, 65%);
+  background-color: hsl(150, 100%, 65%);
 }
 .note.gb {
-  color: hsl(180, 100%, 65%);
+  background-color: hsl(180, 100%, 65%);
 }
 .note.g {
-  color: hsl(210, 100%, 65%);
+  background-color: hsl(210, 100%, 65%);
 }
 .note.ab {
-  color: hsl(240, 100%, 65%);
+  background-color: hsl(240, 100%, 65%);
 }
 .note.a {
-  color: hsl(270, 100%, 65%);
+  background-color: hsl(270, 100%, 65%);
 }
 .note.bb {
-  color: hsl(300, 100%, 65%);
+  background-color: hsl(300, 100%, 65%);
 }
 .note.b {
-  color: hsl(330, 100%, 65%);
+  background-color: hsl(330, 100%, 65%);
 }

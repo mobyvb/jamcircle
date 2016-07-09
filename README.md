@@ -7,7 +7,6 @@ To set up:
   * `sudo npm install -g browserify`
   * `sudo npm install -g uglify-js`
 * `npm install` to install dependencies
-* `npm run setup` to create the build file
-* `npm run bundle` to build the frontend JS
+* `npm run bundle` to build the frontend JS OR `npm run bundle-prod` to build a minified version of the frontend JS
 * Run `npm start` to start the server
 * Go to http://localhost:3000 and have fun :)

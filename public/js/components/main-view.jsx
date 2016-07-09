@@ -12,7 +12,8 @@ module.exports = React.createClass({
     return {
       notesPlaying: {},
       localKeysPressed: {},
-      users: []
+      users: [],
+      viewportHeight: 500
     }
   },
   componentDidMount: function() {
@@ -46,9 +47,9 @@ module.exports = React.createClass({
 
     });
     document.addEventListener('keydown', function(e) {
-      e.preventDefault();
       var note = keyboardNoteMap[e.keyCode];
       if (note) {
+        e.preventDefault();
         if (!self.state.localKeysPressed[e.keyCode]) {
           self.state.socket.emit('startnote', { note: note });
           self.state.localKeysPressed[e.keyCode] = true;
@@ -75,12 +76,20 @@ module.exports = React.createClass({
         self.state.socket.emit('stopnote', { note: note });
       }
     });
+
+    self.setState({'viewportHeight': document.body.offsetHeight});
+    window.addEventListener('resize', function(e) {
+      self.setState({'viewportHeight': document.body.offsetHeight});
+    });
   },
   render: function() {
     return (
       <div className="main">
         <Sidebar />
-        <Visualizer users={this.state.users} notesPlaying={this.state.notesPlaying} />
+        <Visualizer
+          users={this.state.users}
+          notesPlaying={this.state.notesPlaying}
+          viewportHeight={this.state.viewportHeight} />
         <Sequencer />
       </div>
     );
