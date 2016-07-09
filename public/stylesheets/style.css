@@ -18,8 +18,33 @@ a {
   top: 0;
   left: 0;
   height: 100%;
-  width: 0;
+  width: 50px;
+  background-color: white;
+  border-right: 1px solid black;
   overflow: hidden;
+  transition: width 1s;
+  z-index: 2;
+}
+
+#sidebar.open {
+  width: 300px;
+}
+
+#sidebar .sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  right: 17px;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid black;
+  cursor: pointer;
+  transition: transform 1s;
+}
+
+#sidebar.open .sidebar-toggle {
+  transform: rotateZ(180deg);
 }
 
 #sequencer {
@@ -27,6 +52,15 @@ a {
 }
 
 #visualizer {
+  position: absolute;
+  right: 0;
+  left: 50px;
+  top: 0;
+  bottom: 0;
+  padding-top: 20px;
+}
+
+#visualizer .circle {
   position: relative;
   border: 1px solid black;
   width: 500px;

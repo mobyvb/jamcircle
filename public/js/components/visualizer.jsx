@@ -4,17 +4,19 @@ module.exports = React.createClass({
   render: function() {
     var bubbles = this.getBubbles();
     var style = {
-      height: this.props.viewportHeight + 'px',
-      width: this.props.viewportHeight + 'px'
+      height: (this.props.viewportHeight - 40) + 'px',
+      width: (this.props.viewportHeight - 40) + 'px'
     };
     return (
-      <div id='visualizer' style={style}>
-        {bubbles}
+      <div id='visualizer'>
+        <div className='circle' style={style}>
+          {bubbles}
+        </div>
       </div>
     );
   },
   getBubbles: function() {
-    var visualizerSize = this.props.viewportHeight;
+    var visualizerSize = this.props.viewportHeight - 40;
     var circleRadius = (visualizerSize - 100) / 2;
     var centerSize = circleRadius / 4;
     var userSize = circleRadius / 6;
