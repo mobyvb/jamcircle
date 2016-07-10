@@ -1,4 +1,5 @@
 var React = require('react');
+var LoopList = require('./loop-list.jsx');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -10,6 +11,11 @@ module.exports = React.createClass({
     return (
       <div id='sidebar' className={this.state.sidebarOpen ? 'open' : 'closed'}>
         <div onClick={this.toggleSidebar} className='sidebar-toggle'></div>
+        <div className='sidebar-content'>
+          <LoopList
+            onLoopChange={this.props.onLoopChange}
+            loopList={this.props.loopList} />
+        </div>
       </div>
     );
   },

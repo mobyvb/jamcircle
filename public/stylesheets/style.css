@@ -47,6 +47,49 @@ a {
   transform: rotateZ(180deg);
 }
 
+#sidebar .sidebar-content {
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  width: 200px;
+  overflow: hidden;
+}
+
+#loop-list {
+}
+
+.loop-list-item {
+  border: 1px solid black;
+  padding: 5px;
+  padding-left: 25px;
+  position: relative;
+  cursor: pointer;
+  height: 20px;
+  margin: 5px 0;
+}
+
+.loop-list-item .icon {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.loop-list-item .icon.play-button {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid black;
+  width: 0;
+  height: 0;
+}
+
+.loop-list-item .icon.stop-button {
+  top: 9px;
+  border: none;
+  width: 12px;
+  height: 12px;
+  background-color: black;
+}
+
 #sequencer {
   display: none;
 }

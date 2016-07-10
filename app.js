@@ -20,16 +20,14 @@ io.on('connection', function(socket) {
   connections[socket.id] = socket;
   numConnections++;
 
-  console.log('user connected');
-  console.log(numConnections + ' users connected');
   emitAll('usersupdated', Object.keys(connections));
+  var allLoops = loops.getAllLoops();
+  socket.emit('loopsupdated', allLoops);
 
   socket.on('disconnect', function(){
     delete connections[socket.id];
     numConnections --;
 
-    console.log('user disconnected');
-    console.log(numConnections + ' users connected');
     emitAll('usersupdated', Object.keys(connections));
   });
 
@@ -44,15 +42,15 @@ io.on('connection', function(socket) {
   });
 
   socket.on('startloop', function(data) {
-    console.log('start loop ' + data.loopname);
-    loops.startLoop(data.loopname, emitAll);
-    emitAll('startloop', data);
+    loops.startLoop(data.name, emitAll);
+    var allLoops = loops.getAllLoops();
+    emitAll('loopsupdated', allLoops);
   });
 
   socket.on('stoploop', function(data) {
-    console.log('stop loop ' + data.loopname);
-    loops.stopLoop(data.loopname);
-    emitAll('stoploop', data);
+    loops.stopLoop(data.name);
+    var allLoops = loops.getAllLoops();
+    emitAll('loopsupdated', allLoops);
   });
 });
 

@@ -3,6 +3,7 @@ var delayPerBeat = 60 * 1000 / bpm;
 var looping = {};
 
 var chordProg1 = require('./loops/chordprog1.json');
+var loopNames = ['chordProg1'];
 var loops = {
   chordProg1: chordProg1
 };
@@ -35,4 +36,20 @@ function nextNote(loop, i, emitAll) {
   }
 }
 
-module.exports = {startLoop: startLoop, stopLoop: stopLoop};
+function getAllLoops() {
+  var list = [];
+  for (var i=0; i<loopNames.length; i++) {
+    var currentName = loopNames[i];
+    var listItem = {
+      name: currentName,
+      playing: looping[currentName]
+    }
+    list.push(listItem);
+  }
+  console.log(list.length + ' loops');
+  return list;
+}
+
+module.exports = {startLoop: startLoop,
+  stopLoop: stopLoop,
+  getAllLoops: getAllLoops};

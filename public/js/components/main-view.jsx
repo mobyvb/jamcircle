@@ -13,7 +13,8 @@ module.exports = React.createClass({
       notesPlaying: {},
       localKeysPressed: {},
       users: [],
-      viewportHeight: 500
+      viewportHeight: 500,
+      loopList: []
     }
   },
   componentDidMount: function() {
@@ -21,6 +22,10 @@ module.exports = React.createClass({
     self.state.socket = io();
     self.state.socket.on('usersupdated', function(data) {
       self.setState({'users': data});
+    });
+
+    self.state.socket.on('loopsupdated', function(data) {
+      self.setState({'loopList': data});
     });
 
     self.state.socket.on('startnote', function(data) {
@@ -40,12 +45,7 @@ module.exports = React.createClass({
       }
       self.setState({'notesPlaying': notesPlaying});
     });
-    self.state.socket.on('startloop', function(data) {
 
-    });
-    self.state.socket.on('stoploop', function(data) {
-
-    });
     document.addEventListener('keydown', function(e) {
       var note = keyboardNoteMap[e.keyCode];
       if (note) {
@@ -85,7 +85,9 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div className="main">
-        <Sidebar />
+        <Sidebar
+          onLoopChange={this.onLoopChange}
+          loopList={this.state.loopList} />
         <Visualizer
           users={this.state.users}
           notesPlaying={this.state.notesPlaying}
@@ -93,5 +95,13 @@ module.exports = React.createClass({
         <Sequencer />
       </div>
     );
+  },
+  onLoopChange: function(shouldPlay, loopName) {
+    if (shouldPlay) {
+      this.state.socket.emit('startloop', {name: loopName});
+    } else {
+      this.state.socket.emit('stoploop', {name: loopName});
+    }
+    this.state.socket.emit('')
   }
 });
