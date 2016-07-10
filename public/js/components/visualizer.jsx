@@ -20,7 +20,15 @@ module.exports = React.createClass({
     var circleRadius = (visualizerSize - 100) / 2;
     var centerSize = circleRadius / 4;
     var userSize = circleRadius / 6;
-    var numUsers = this.props.users.length;
+
+    var users = Object.create(this.props.users);
+    for (var i=0; i<this.props.loopList.length; i++) {
+      var nextLoop = this.props.loopList[i];
+      if (nextLoop.playing) {
+        users.push(nextLoop.name);
+      }
+    }
+    var numUsers = users.length;
     var degreesPerUser = 360 / numUsers;
 
     var bubbleDivs = [];
@@ -42,7 +50,7 @@ module.exports = React.createClass({
 
     var currentAngle = 0;
     for (var i = 0; i < numUsers; i++) {
-      var userId = this.props.users[i];
+      var userId = users[i];
       var xFromCenter = circleRadius * Math.cos(this.toRadians(currentAngle));
       var yFromCenter = circleRadius * Math.sin(this.toRadians(currentAngle));
       var userTop = yFromCenter + visualizerSize / 2 - userSize / 2;

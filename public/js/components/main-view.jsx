@@ -89,6 +89,7 @@ module.exports = React.createClass({
           onLoopChange={this.onLoopChange}
           loopList={this.state.loopList} />
         <Visualizer
+          loopList={this.state.loopList}
           users={this.state.users}
           notesPlaying={this.state.notesPlaying}
           viewportHeight={this.state.viewportHeight} />

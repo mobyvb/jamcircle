@@ -46,7 +46,6 @@ function getAllLoops() {
     }
     list.push(listItem);
   }
-  console.log(list.length + ' loops');
   return list;
 }
 
