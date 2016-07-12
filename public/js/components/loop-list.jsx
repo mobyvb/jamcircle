@@ -18,6 +18,8 @@ module.exports = React.createClass({
       <div id='loop-list'>
         <h3>Loops</h3>
         {listItemElems}
+        <div onClick={this.props.openSequencer}
+          className='add-loop'>Add Loop</div>
       </div>
     );
   }

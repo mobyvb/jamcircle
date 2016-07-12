@@ -14,7 +14,9 @@ module.exports = React.createClass({
       localKeysPressed: {},
       users: [],
       viewportHeight: 500,
-      loopList: []
+      viewportWidth: 500,
+      loopList: [],
+      sequencerOpen: false
     }
   },
   componentDidMount: function() {
@@ -49,7 +51,7 @@ module.exports = React.createClass({
     document.addEventListener('keydown', function(e) {
       var note = keyboardNoteMap[e.keyCode];
       if (note) {
-        e.preventDefault();
+        // e.preventDefault();
         if (!self.state.localKeysPressed[e.keyCode]) {
           self.state.socket.emit('startnote', { note: note });
           self.state.localKeysPressed[e.keyCode] = true;
@@ -77,9 +79,15 @@ module.exports = React.createClass({
       }
     });
 
-    self.setState({'viewportHeight': document.body.offsetHeight});
+    self.setState({
+      'viewportHeight': document.body.offsetHeight,
+      'viewportWidth': document.body.offsetWidth
+    });
     window.addEventListener('resize', function(e) {
-      self.setState({'viewportHeight': document.body.offsetHeight});
+      self.setState({
+        'viewportHeight': document.body.offsetHeight,
+        'viewportWidth': document.body.offsetWidth
+      });
     });
   },
   render: function() {
@@ -87,13 +95,17 @@ module.exports = React.createClass({
       <div className="main">
         <Sidebar
           onLoopChange={this.onLoopChange}
-          loopList={this.state.loopList} />
+          loopList={this.state.loopList}
+          openSequencer={this.openSequencer} />
         <Visualizer
           loopList={this.state.loopList}
           users={this.state.users}
           notesPlaying={this.state.notesPlaying}
           viewportHeight={this.state.viewportHeight} />
-        <Sequencer />
+        <Sequencer
+          sequencerOpen={this.state.sequencerOpen}
+          closeSequencer={this.closeSequencer}
+          viewportWidth={this.state.viewportWidth} />
       </div>
     );
   },
@@ -104,5 +116,11 @@ module.exports = React.createClass({
       this.state.socket.emit('stoploop', {name: loopName});
     }
     this.state.socket.emit('')
+  },
+  openSequencer: function() {
+    this.setState({sequencerOpen: true});
+  },
+  closeSequencer: function() {
+    this.setState({sequencerOpen: false});
   }
 });

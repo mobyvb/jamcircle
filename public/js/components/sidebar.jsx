@@ -14,7 +14,8 @@ module.exports = React.createClass({
         <div className='sidebar-content'>
           <LoopList
             onLoopChange={this.props.onLoopChange}
-            loopList={this.props.loopList} />
+            loopList={this.props.loopList}
+            openSequencer={this.props.openSequencer} />
         </div>
       </div>
     );

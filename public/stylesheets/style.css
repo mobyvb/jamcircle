@@ -7,6 +7,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
+  overflow: hidden;
 }
 
 a {
@@ -58,6 +59,14 @@ a {
 #loop-list {
 }
 
+#loop-list .add-loop {
+  width: 150px;
+  border: 1px solid black;
+  margin: auto;
+  padding: 5px;
+  cursor: pointer;
+}
+
 .loop-list-item {
   border: 1px solid black;
   padding: 5px;
@@ -91,7 +100,156 @@ a {
 }
 
 #sequencer {
-  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  transition: height 1s;
+  border-top: 1px solid black;
+  z-index: 3;
+  background-color: white;
+}
+#sequencer.open {
+  height: 100%;
+}
+#sequencer .sequencer-close {
+  position: absolute;
+  top: 17px;
+  left: 10px;
+  width: 0;
+  height: 0;
+  border-top: 15px solid black;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  cursor: pointer;
+}
+#sequencer .sequencer-settings {
+  position: absolute;
+  left: 130px;
+}
+#sequencer .sequencer-settings label {
+  font-size: 15px;
+  margin: 0 5px;
+}
+#sequencer .sequencer-settings input[type=number] {
+  width: 50px;
+  height: 18px;
+  font-size: 15px;
+  text-align: center;
+}
+#sequencer .sequencer-settings .time-signature {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  top: 20px;
+  margin-right: 5px;
+}
+#sequencer .sequencer-settings .time-signature-top {
+  position: absolute;
+  top: 0;
+}
+#sequencer .sequencer-settings .time-signature-bottom {
+  position: absolute;
+  bottom: 0;
+}
+#sequencer .controls {
+  position: absolute;
+  top: 25px;
+  left: 50px;
+}
+#sequencer .controls .record,
+#sequencer .controls .play,
+#sequencer .controls .stop {
+  display: inline-block;
+  cursor: pointer;
+  margin: 5px;
+}
+#sequencer .controls .record {
+  top: 9px;
+  border: none;
+  width: 12px;
+  height: 12px;
+  background-color: black;
+  border-radius: 50%;
+}
+#sequencer .controls .play {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid black;
+  width: 0;
+  height: 0;
+  position: relative;
+  top: 3px;
+}
+#sequencer .controls .stop {
+  top: 9px;
+  border: none;
+  width: 12px;
+  height: 12px;
+  background-color: black;
+}
+#sequencer .roll-container {
+  position: absolute;
+  top: 100px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+  border-top: 1px solid black;
+}
+#sequencer .piano-roll {
+  position: absolute;
+  left: 55px;
+  top: 0;
+  height: 100%;
+}
+
+#sequencer .piano-roll .measure-line {
+  position: absolute;
+  border-left: 1px solid black;
+  width: 0;
+  top: 0;
+  height: 1936px; /* 88 * 22px; change this later */
+}
+#sequencer .piano-roll .measure-line.end-measure {
+  border-left: 2px solid black;
+}
+#sequencer .piano-roll .tracker {
+  position: absolute;
+  z-index: 1;
+  width: 0;
+  height: 1936px; /* 88 * 22px; change this later */
+}
+#sequencer .piano-roll .tracker .tracker-arrow {
+  position: relative;
+  right: 5px;
+  border-top: 5px solid red;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  width: 0;
+  height: 0;
+}
+#sequencer .piano-roll .tracker .tracker-line {
+  border-left: 1px solid red;
+  height: 100%;
+}
+#sequencer .piano-keys {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#sequencer .piano-keys .key {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  background-color: white;
+  width: 50px;
+  padding: 2px;
+}
+#sequencer .piano-keys .key.sharp {
+  background-color: black;
+  color: white;
 }
 
 #visualizer {
@@ -122,7 +280,6 @@ a {
 }
 #visualizer .notecontainer {
   position: absolute;
-  /*height: 10px;*/
   border: 1px solid black;
   transform-origin: center left;
 }
