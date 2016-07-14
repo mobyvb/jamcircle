@@ -235,6 +235,13 @@ a {
   border-left: 1px solid red;
   height: 100%;
 }
+#sequencer .piano-roll .note {
+  background-color: lightgreen;
+  height: 20px;
+  position: absolute;
+  border: 1px solid black;
+}
+
 #sequencer .piano-keys {
   position: absolute;
   left: 0;
@@ -246,6 +253,8 @@ a {
   background-color: white;
   width: 50px;
   padding: 2px;
+  height: 17px;
+  text-align: right;
 }
 #sequencer .piano-keys .key.sharp {
   background-color: black;
