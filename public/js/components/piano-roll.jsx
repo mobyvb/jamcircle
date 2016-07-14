@@ -134,7 +134,6 @@ module.exports = React.createClass({
     }
   },
   componentDidMount: function() {
-    this.startLoop();
   },
   componentWillReceiveProps: function(nextProps) {
     if (this.props.measureCount != nextProps.measureCount
@@ -143,11 +142,16 @@ module.exports = React.createClass({
       || this.props.viewportWidth != nextProps.viewportWidth) {
       this.updateMeasureLines(nextProps);
     }
+    if (!this.props.loopPlaying && nextProps.loopPlaying) {
+      this.startLoop();
+    }
   },
   render: function() {
     var trackerDist = this.state.trackerDist;
+    var trackerTransition = this.state.trackerTransition;
     var trackerStyle = {
-      left: trackerDist + 'px'
+      left: trackerDist + 'px',
+      transition: 'left linear ' + trackerTransition + 'ms'
     };
     var noteElems = this.getNoteElems();
 
@@ -163,7 +167,43 @@ module.exports = React.createClass({
     );
   },
   startLoop: function() {
-    // setInter
+    var msPerBeat = 0;
+    var progression = this.state.progression;
+    var i = 0;
+    this.nextNote(0, 0, true);
+  },
+  nextNote: function(i, trackerDist, loopPlaying) {
+    var self = this;
+    if (loopPlaying) {
+      var msPerMin = 1000 * 60;
+      var msPerBeat = msPerMin / this.props.bpm;
+      var measureLineDist = this.getMeasureLineDist(this.props);
+      var pxPerBeat = measureLineDist * this.props.timeSignatureBottom / 4;
+      if (i >= this.state.progression.length) {
+        i = 0;
+        trackerDist = 0;
+      }
+      var noteData = this.state.progression[i];
+      var delayMs = msPerBeat * noteData.delay;
+      trackerDist = trackerDist + pxPerBeat * noteData.delay;
+      this.setState({
+        trackerDist: trackerDist,
+        trackerTransition: delayMs
+      });
+      setTimeout(function() {
+        if (noteData.type === 'startnote') {
+          self.props.startNote(noteData.note);
+        } else if (noteData.type === 'endnote') {
+          self.props.stopNote(noteData.note);
+        }
+        self.nextNote(i + 1, trackerDist, self.props.loopPlaying);
+      }, delayMs);
+    } else {
+      this.setState({
+        trackerDist: 0,
+        trackerTransition: 0
+      });
+    }
   },
   updateMeasureLines: function(newProps) {
     var widthPerLine = this.getMeasureLineDist(newProps);

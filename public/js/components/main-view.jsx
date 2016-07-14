@@ -11,6 +11,7 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       notesPlaying: {},
+      sequencerNotesPlaying: {},
       localKeysPressed: {},
       users: [],
       viewportHeight: 500,
@@ -105,7 +106,9 @@ module.exports = React.createClass({
         <Sequencer
           sequencerOpen={this.state.sequencerOpen}
           closeSequencer={this.closeSequencer}
-          viewportWidth={this.state.viewportWidth} />
+          viewportWidth={this.state.viewportWidth}
+          startNote={this.startNote}
+          stopNote={this.stopNote} />
       </div>
     );
   },
@@ -122,5 +125,13 @@ module.exports = React.createClass({
   },
   closeSequencer: function() {
     this.setState({sequencerOpen: false});
+  },
+  startNote: function(note) {
+    this.state.sequencerNotesPlaying[note] = Sound.getAudioBuffer(note);
+    this.state.sequencerNotesPlaying[note].start();
+  },
+  stopNote: function(note) {
+    this.state.sequencerNotesPlaying[note].stop();
+    delete this.state.sequencerNotesPlaying[note];
   }
 });

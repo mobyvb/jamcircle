@@ -9,7 +9,8 @@ module.exports = React.createClass({
       quantizeInterval: 1,
       timeSignatureTop: 4,
       timeSignatureBottom: 4,
-      measureCount: 4
+      measureCount: 4,
+      loopPlaying: false
     }
   },
   render: function() {
@@ -61,8 +62,8 @@ module.exports = React.createClass({
         </div>
         <div className='controls'>
           <div className='record'></div>
-          <div className='play'></div>
-          <div className='stop'></div>
+          <div onClick={this.startLoop} className='play'></div>
+          <div onClick={this.stopLoop} className='stop'></div>
         </div>
         <div className='roll-container'>
           <PianoKeys />
@@ -72,7 +73,10 @@ module.exports = React.createClass({
             timeSignatureTop={this.state.timeSignatureTop}
             timeSignatureBottom={this.state.timeSignatureBottom}
             measureCount={this.state.measureCount}
-            viewportWidth={this.props.viewportWidth} />
+            viewportWidth={this.props.viewportWidth}
+            loopPlaying={this.state.loopPlaying}
+            startNote={this.props.startNote}
+            stopNote={this.props.stopNote} />
         </div>
       </div>
     );
@@ -106,5 +110,11 @@ module.exports = React.createClass({
     if (!isNaN(newVal)) {
       this.setState({measureCount: e.target.value});
     }
+  },
+  startLoop: function() {
+    this.setState({loopPlaying: true});
+  },
+  stopLoop: function() {
+    this.setState({loopPlaying: false});
   }
 });
